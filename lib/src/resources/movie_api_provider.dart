@@ -1,13 +1,17 @@
 import 'dart:convert';
 
 import '../models/trailer_model.dart';
-import 'package:http/http.dart' show Client;
+import 'package:http/http.dart' show Client, Response;
 import '../models/item_model.dart';
+import 'package:inject/inject.dart';
 
 class MovieApiProvider {
-  Client client = Client();
+  final Client client;
   final _apiKey = "af9ae3997d25e9a6fa2ca1a11f73fc0e";
   final _baseUrl = "http://api.themoviedb.org/3/movie";
+
+  @provide
+  MovieApiProvider(this.client);
 
   Future<ItemModel> fetchMovieList() async {
     print("entered");

@@ -1,24 +1,25 @@
 import 'package:bloc_project/src/blocs/movie_detail_bloc.dart';
-import 'package:bloc_project/src/blocs/movie_detail_bloc_provider.dart';
 import 'package:bloc_project/src/models/trailer_model.dart';
 import 'package:flutter/material.dart';
 
 class MovieDetail extends StatefulWidget {
-  final posterUrl;
-  final description;
-  final releaseDate;
+  final MovieDetailBloc bloc;
+  final String posterUrl;
+  final String description;
+  final String releaseDate;
   final String title;
   final String voteAverage;
   final int movieId;
 
-  MovieDetail({
+  MovieDetail(
+    this.bloc,
     this.title,
     this.posterUrl,
     this.description,
     this.releaseDate,
     this.voteAverage,
     this.movieId,
-  });
+  );
 
   @override
   State<StatefulWidget> createState() {
@@ -34,13 +35,12 @@ class MovieDetail extends StatefulWidget {
 }
 
 class MovieDetailState extends State<MovieDetail> {
-  final posterUrl;
-  final description;
-  final releaseDate;
+  final String posterUrl;
+  final String description;
+  final String releaseDate;
   final String title;
   final String voteAverage;
   final int movieId;
-  MovieDetailBloc bloc;
 
   MovieDetailState({
     this.title,
@@ -52,15 +52,18 @@ class MovieDetailState extends State<MovieDetail> {
   });
 
   @override
-  void didChangeDependencies() {
-    bloc = MovieDetailBlocProvider.of(context);
-    bloc.fetchTrailerById(movieId);
-    super.didChangeDependencies();
+  void initState() {
+    super.initState();
+    widget.bloc.init();
+    widget.bloc.fetchTrailerById(movieId);
+    //bloc = MovieDetailBlocProvider.of(context);
+    //bloc.fetchTrailerById(movieId);
+    //super.didChangeDependencies();
   }
 
   @override
   void dispose() {
-    bloc.dispose();
+    widget.bloc.dispose();
     super.dispose();
   }
 
@@ -71,104 +74,108 @@ class MovieDetailState extends State<MovieDetail> {
         top: false,
         bottom: false,
         child: NestedScrollView(
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            return <Widget>[
-              SliverAppBar(
-                expandedHeight: 200.0,
-                floating: false,
-                pinned: true,
-                elevation: 0.0,
-                flexibleSpace: FlexibleSpaceBar(
-                  background: Image.network(
-                    "https://image.tmdb.org/t/p/w500$posterUrl",
-                    fit: BoxFit.cover,
+            headerSliverBuilder:
+                (BuildContext context, bool innerBoxIsScrolled) {
+              return <Widget>[
+                SliverAppBar(
+                  expandedHeight: 200.0,
+                  floating: false,
+                  pinned: true,
+                  elevation: 0.0,
+                  flexibleSpace: FlexibleSpaceBar(
+                    background: Image.network(
+                      "https://image.tmdb.org/t/p/w500$posterUrl",
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                ),
-              )
-            ];
-          },
-          body: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+                )
+              ];
+            },
+            body: ListView(
               children: <Widget>[
-                Container(
-                  margin: EdgeInsets.only(top: 5.0),
-                ),
-                Text(
-                  title,
-                  style: TextStyle(
-                    fontSize: 25.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Container(margin: EdgeInsets.only(top: 8.0, bottom: 8.0)),
-                Row(
-                  children: <Widget>[
-                    Icon(
-                      Icons.favorite,
-                      color: Colors.red,
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(left: 1.0, right: 1.0),
-                    ),
-                    Text(
-                      voteAverage,
-                      style: TextStyle(
-                        fontSize: 18.0,
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        margin: EdgeInsets.only(top: 5.0),
                       ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(left: 10.0, right: 10.0),
-                    ),
-                    Text(
-                      releaseDate,
-                      style: TextStyle(
-                        fontSize: 18.0,
+                      Text(
+                        title,
+                        style: TextStyle(
+                          fontSize: 25.0,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                Container(margin: EdgeInsets.only(top: 8.0, bottom: 8.0)),
-                Text(description),
-                Container(margin: EdgeInsets.only(top: 8.0, bottom: 8.0)),
-                Text(
-                  "Trailer",
-                  style: TextStyle(
-                    fontSize: 25.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Container(margin: EdgeInsets.only(top: 8.0, bottom: 8.0)),
-                StreamBuilder(
-                    stream: bloc.movieTrailers,
-                    builder: (context,
-                        AsyncSnapshot<Future<TrailerModel>> snapshot) {
-                      if (snapshot.hasData) {
-                        return FutureBuilder(
-                          future: snapshot.data,
+                      Container(margin: EdgeInsets.only(top: 8.0, bottom: 8.0)),
+                      Row(
+                        children: <Widget>[
+                          Icon(
+                            Icons.favorite,
+                            color: Colors.red,
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(left: 1.0, right: 1.0),
+                          ),
+                          Text(
+                            voteAverage,
+                            style: TextStyle(
+                              fontSize: 18.0,
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(left: 10.0, right: 10.0),
+                          ),
+                          Text(
+                            releaseDate,
+                            style: TextStyle(
+                              fontSize: 18.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Container(margin: EdgeInsets.only(top: 8.0, bottom: 8.0)),
+                      Text(description),
+                      Container(margin: EdgeInsets.only(top: 8.0, bottom: 8.0)),
+                      Text(
+                        "Trailer",
+                        style: TextStyle(
+                          fontSize: 25.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Container(margin: EdgeInsets.only(top: 8.0, bottom: 8.0)),
+                      StreamBuilder(
+                          stream: widget.bloc.movieTrailers,
                           builder: (context,
-                              AsyncSnapshot<TrailerModel> itemSnapshot) {
-                            if (itemSnapshot.hasData) {
-                              if (itemSnapshot.data.results.length > 0) {
-                                return trailerLayout(itemSnapshot.data);
-                              }
-                              return noTrailer(itemSnapshot.data);
+                              AsyncSnapshot<Future<TrailerModel>> snapshot) {
+                            if (snapshot.hasData) {
+                              return FutureBuilder(
+                                future: snapshot.data,
+                                builder: (context,
+                                    AsyncSnapshot<TrailerModel> itemSnapshot) {
+                                  if (itemSnapshot.hasData) {
+                                    if (itemSnapshot.data.results.length > 0) {
+                                      return trailerLayout(itemSnapshot.data);
+                                    }
+                                    return noTrailer(itemSnapshot.data);
+                                  }
+                                  return Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                },
+                              );
                             }
                             return Center(
                               child: CircularProgressIndicator(),
                             );
-                          },
-                        );
-                      }
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }),
+                          }),
+                    ],
+                  ),
+                ),
               ],
-            ),
-          ),
-        ),
+            )),
       ),
     );
   }
