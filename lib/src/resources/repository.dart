@@ -1,7 +1,7 @@
-import 'package:bloc_project/src/models/trailer_model.dart';
-
-import '../models/item_model.dart';
+import 'dart:async';
 import 'movie_api_provider.dart';
+import '../models/trailer_model.dart';
+import '../models/item_model.dart';
 import 'package:inject/inject.dart';
 
 class Repository {

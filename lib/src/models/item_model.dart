@@ -30,7 +30,7 @@ class Result {
   int _id;
   int _voteCount;
   bool _video;
-  var _voteAverage;
+  String _voteAverage;
   String _title;
   double _popularity;
   String _posterPath;
@@ -46,7 +46,7 @@ class Result {
     _voteCount = result['vote_count'];
     _id = result['id'];
     _video = result['video'];
-    _voteAverage = result['vote_average'];
+    _voteAverage = result['vote_average'].toString();
     _title = result['title'];
     _popularity = result['popularity'];
     _posterPath = result['poster_path'];
@@ -71,7 +71,7 @@ class Result {
   String get posterPath => _posterPath;
   double get popularity => _popularity;
   String get title => _title;
-  double get voteAverage => _voteAverage;
+  String get voteAverage => _voteAverage;
   bool get video => _video;
   int get id => _id;
   int get voteCount => _voteCount;

@@ -67,6 +67,6 @@ class MovieListState extends State<MovieList> {
   }
 
   openDetailPage(ItemModel data, int index) {
-    Navigator.pushNamed(context, 'moviDetail', arguments: data.results[index]);
+    Navigator.pushNamed(context, 'movieDetail', arguments: data.results[index]);
   }
 }

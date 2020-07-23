@@ -1,12 +1,13 @@
+import 'dart:async';
 import 'package:rxdart/rxdart.dart';
 
-import '../resources/repository.dart';
 import '../models/trailer_model.dart';
+import '../resources/repository.dart';
 import 'bloc_base.dart';
 import 'package:inject/inject.dart';
 
 class MovieDetailBloc extends BlocBase {
-  final Repository _repository;
+  Repository _repository;
   PublishSubject<int> _movieId;
   BehaviorSubject<Future<TrailerModel>> _trailers;
 

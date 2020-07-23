@@ -33,6 +33,7 @@ class App extends StatelessWidget {
             );
           });
         }
+        throw Exception("Something terrible happening");
       },
       routes: {
         '/': (context) => MovieList(moviesBloc),

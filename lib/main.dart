@@ -4,5 +4,5 @@ import 'src/di/bloc_module.dart';
 
 void main() async {
   var container = await BlocInjector.create(BlocModule());
-  runApp(container.App());
+  runApp(container.app);
 }

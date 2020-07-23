@@ -1,4 +1,3 @@
-import 'package:bloc_project/src/di/bloc_module.dart';
 import 'package:inject/inject.dart';
 import 'bloc_injector.inject.dart' as g;
 import '../app.dart';

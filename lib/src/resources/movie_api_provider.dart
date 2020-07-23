@@ -1,7 +1,7 @@
+import 'dart:async';
 import 'dart:convert';
-
-import '../models/trailer_model.dart';
 import 'package:http/http.dart' show Client, Response;
+import '../models/trailer_model.dart';
 import '../models/item_model.dart';
 import 'package:inject/inject.dart';
 
@@ -14,8 +14,8 @@ class MovieApiProvider {
   MovieApiProvider(this.client);
 
   Future<ItemModel> fetchMovieList() async {
-    print("entered");
-    final response = await client.get("$_baseUrl/popular?api_key=$_apiKey");
+    Response response;
+    response = await client.get("$_baseUrl/popular?api_key=$_apiKey");
 
     print(response.body.toString());
 
@@ -27,8 +27,9 @@ class MovieApiProvider {
   }
 
   Future<TrailerModel> fetchTrailer(int movieId) async {
-    final response =
-        await client.get("$_baseUrl/$movieId/videos?api_key=$_apiKey");
+    //Response response;
+
+    final response = await client.get("$_baseUrl/$movieId/videos?api_key=$_apiKey");
 
     if (response.statusCode == 200) {
       return TrailerModel.fromJson(json.decode(response.body));

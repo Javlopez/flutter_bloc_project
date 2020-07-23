@@ -1,4 +1,4 @@
-import 'package:http/http.dart';
+import 'package:http/http.dart' show Client;
 import 'package:inject/inject.dart';
 
 import '../blocs/movies_bloc.dart';

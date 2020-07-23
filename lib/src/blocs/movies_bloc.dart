@@ -1,4 +1,4 @@
-import 'package:bloc_project/src/blocs/bloc_base.dart';
+import 'bloc_base.dart';
 import 'package:inject/inject.dart';
 
 import '../models/item_model.dart';
@@ -6,6 +6,7 @@ import 'package:rxdart/rxdart.dart';
 import '../resources/repository.dart';
 
 class MoviesBloc extends BlocBase {
+
   final Repository _repository;
   PublishSubject<ItemModel> _moviesFetcher;
 
@@ -28,5 +29,3 @@ class MoviesBloc extends BlocBase {
     _moviesFetcher.close();
   }
 }
-
-final blocMovies = MoviesBloc();

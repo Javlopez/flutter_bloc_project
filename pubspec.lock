@@ -58,7 +58,7 @@ packages:
     source: hosted
     version: "0.2.3"
   build_resolvers:
-    dependency: transitive
+    dependency: "direct dev"
     description:
       name: build_resolvers
       url: "https://pub.dartlang.org"

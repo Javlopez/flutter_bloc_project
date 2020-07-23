@@ -1,6 +1,8 @@
-import 'package:bloc_project/src/blocs/movie_detail_bloc.dart';
-import 'package:bloc_project/src/models/trailer_model.dart';
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import '../blocs/movie_detail_bloc.dart';
+import '../models/trailer_model.dart';
 
 class MovieDetail extends StatefulWidget {
   final MovieDetailBloc bloc;
@@ -56,9 +58,6 @@ class MovieDetailState extends State<MovieDetail> {
     super.initState();
     widget.bloc.init();
     widget.bloc.fetchTrailerById(movieId);
-    //bloc = MovieDetailBlocProvider.of(context);
-    //bloc.fetchTrailerById(movieId);
-    //super.didChangeDependencies();
   }
 
   @override
