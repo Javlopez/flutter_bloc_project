@@ -57,7 +57,7 @@ class MovieDetailState extends State<MovieDetail> {
   void initState() {
     super.initState();
     widget.bloc.init();
-    widget.bloc.fetchTrailerById(movieId);
+    widget.bloc.fetchTrailersById(movieId);
   }
 
   @override
@@ -82,12 +82,11 @@ class MovieDetailState extends State<MovieDetail> {
                   pinned: true,
                   elevation: 0.0,
                   flexibleSpace: FlexibleSpaceBar(
-                    background: Image.network(
-                      "https://image.tmdb.org/t/p/w500$posterUrl",
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                )
+                      background: Image.network(
+                    "https://image.tmdb.org/t/p/w500$posterUrl",
+                    fit: BoxFit.cover,
+                  )),
+                ),
               ];
             },
             body: ListView(
@@ -97,9 +96,7 @@ class MovieDetailState extends State<MovieDetail> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.only(top: 5.0),
-                      ),
+                      Container(margin: EdgeInsets.only(top: 5.0)),
                       Text(
                         title,
                         style: TextStyle(
@@ -146,30 +143,19 @@ class MovieDetailState extends State<MovieDetail> {
                       ),
                       Container(margin: EdgeInsets.only(top: 8.0, bottom: 8.0)),
                       StreamBuilder(
-                          stream: widget.bloc.movieTrailers,
-                          builder: (context,
-                              AsyncSnapshot<Future<TrailerModel>> snapshot) {
-                            if (snapshot.hasData) {
-                              return FutureBuilder(
-                                future: snapshot.data,
-                                builder: (context,
-                                    AsyncSnapshot<TrailerModel> itemSnapshot) {
-                                  if (itemSnapshot.hasData) {
-                                    if (itemSnapshot.data.results.length > 0) {
-                                      return trailerLayout(itemSnapshot.data);
-                                    }
-                                    return noTrailer(itemSnapshot.data);
-                                  }
-                                  return Center(
-                                    child: CircularProgressIndicator(),
-                                  );
-                                },
-                              );
+                        stream: widget.bloc.movieTrailers,
+                        builder:
+                            (context, AsyncSnapshot<TrailerModel> snapshot) {
+                          if (snapshot.hasData) {
+                            if (snapshot.data.results.length > 0) {
+                              return trailerLayout(snapshot.data);
                             }
-                            return Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }),
+                            return noTrailer(snapshot.data);
+                          }
+                          debugPrint("${snapshot.connectionState.toString()}");
+                          return Center(child: CircularProgressIndicator());
+                        },
+                      ),
                     ],
                   ),
                 ),
@@ -212,15 +198,13 @@ class MovieDetailState extends State<MovieDetail> {
             margin: EdgeInsets.all(5.0),
             height: 100.0,
             color: Colors.grey,
-            child: Center(
-              child: Icon(Icons.play_circle_filled),
-            ),
+            child: Center(child: Icon(Icons.play_circle_filled)),
           ),
           Text(
             data.results[index].name,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-          )
+          ),
         ],
       ),
     );
