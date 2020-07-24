@@ -23,14 +23,15 @@ class MovieApiProvider {
 
     response = await client.get("$_baseUrl/popular?api_key=$_apiKey");
 
-    print(response.body.toString());
+    if (response == null) {
+      return State<String>.error(
+          "Cannot fetch the results by using $_baseUrl/popular?api_key=$_apiKey");
+    }
 
     if (response.statusCode == 200) {
       return State<ItemModel>.success(
           ItemModel.fromJson(json.decode(response.body)));
     }
-
-    return State<String>.error(response.statusCode.toString());
   }
 
   Future<State> fetchTrailer(int movieId) async {

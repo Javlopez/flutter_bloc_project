@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import '../blocs/movie_detail_bloc.dart';
 import '../models/trailer_model.dart';
